@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CaseVerse Mono</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="noise"></div>
+    <div class="grid-fade"></div>
+
+    <div id="toast" class="toast"></div>
+
+    <section id="authScreen" class="auth-shell">
+      <div class="auth-panel">
+        <div class="auth-brand-row">
+          <div class="brand-mark">CV</div>
+          <div>
+            <div class="eyebrow">mono premium build</div>
+            <h1>CaseVerse</h1>
+            <p>Кейсы, шансы, прокрутка открытия и виртуальная валюта.</p>
+          </div>
+        </div>
+
+        <div class="auth-note">
+          Локальный проект без реальных денег, без вывода средств и без обмена на рубли.
+        </div>
+
+        <div class="auth-switcher">
+          <button class="auth-tab active" data-auth-tab="register">Регистрация</button>
+          <button class="auth-tab" data-auth-tab="login">Вход</button>
+        </div>
+
+        <form id="registerForm" class="auth-form active">
+          <label>
+            Почта
+            <input type="email" name="email" placeholder="you@example.com" required />
+          </label>
+          <label>
+            Пароль
+            <input type="password" name="password" placeholder="Минимум 6 символов" required />
+          </label>
+          <label>
+            Никнейм
+            <input type="text" name="nickname" placeholder="Например, WhiteGhost" required />
+          </label>
+          <button type="submit" class="primary-btn">Создать аккаунт</button>
+        </form>
+
+        <form id="loginForm" class="auth-form">
+          <label>
+            Почта
+            <input type="email" name="email" placeholder="you@example.com" required />
+          </label>
+          <label>
+            Пароль
+            <input type="password" name="password" placeholder="Введите пароль" required />
+          </label>
+          <button type="submit" class="primary-btn">Войти</button>
+        </form>
+
+        <div class="auth-meta-grid">
+          <div class="auth-meta-card">
+            <span>Старт нового аккаунта</span>
+            <strong>75.00 $</strong>
+          </div>
+          <div class="auth-meta-card">
+            <span>БОНУС</span>
+            <strong>8 кейсов</strong>
+            <small>Куча дропа</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main id="app" class="app hidden">
+      <header class="topbar panel">
+        <div class="topbar-main">
+          <div class="brand-mark">CV</div>
+          <div>
+            <div class="eyebrow">black / white edition</div>
+            <h2>CaseVerse Dashboard</h2>
+          </div>
+        </div>
+        <div class="topbar-side">
+          <div class="top-pill">
+            <span>Баланс</span>
+            <strong id="balanceValue">0.00 $</strong>
+          </div>
+          <div class="top-pill compact">
+            <span>ID</span>
+            <strong id="userIdValue">—</strong>
+          </div>
+          <div class="top-pill compact">
+            <span>Пользователь</span>
+            <strong id="userNameValue">—</strong>
+          </div>
+          <button id="logoutBtn" class="ghost-btn">Выйти</button>
+        </div>
+      </header>
+
+      <nav class="view-tabs panel" id="viewTabs">
+        <button class="view-tab active" data-view="cases">Кейсы</button>
+        <button class="view-tab" data-view="inventory">Инвентарь</button>
+        <button class="view-tab" data-view="history">История</button>
+        <button class="view-tab" data-view="transfers">Переводы</button>
+        <button class="view-tab hidden" id="adminTab" data-view="admin">Админ</button>
+      </nav>
+
+      <section id="view-cases" class="view active">
+        <div class="hero-grid">
+          <article class="panel hero-panel">
+            <div>
+              <div class="eyebrow">виртуальная экономика</div>
+              <h3>Case 2.8</h3>
+              <p>
+                Здесь 8 кейсов по 20 предметов. Самый дешёвый стоит 50 $, самый дорогой — 200 $, а максимальный дроп — 1000 $.
+              </p>
+            </div>
+            <div class="hero-actions">
+              <button id="clickFarmBtn" class="primary-btn farm-btn">Получить +0.5 $</button>
+              <div class="muted-copy">Братух,  тапай по мне вот так : тап тап.</div>
+            </div>
+          </article>
+
+          <article class="panel hero-stats">
+            <div class="metric-card"><span>Кейсов</span><strong>8</strong></div>
+            <div class="metric-card"><span>Мин. цена</span><strong>50 $</strong></div>
+            <div class="metric-card"><span>Макс. цена</span><strong>200 $</strong></div>
+            <div class="metric-card"><span>Макс. дроп</span><strong>1000 $</strong></div>
+          </article>
+        </div>
+
+        <section class="section-block">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">каталог кейсов</div>
+              <h3>Выбери кейс</h3>
+            </div>
+          </div>
+          <div id="casesGrid" class="cases-grid"></div>
+        </section>
+      </section>
+
+      <section id="view-inventory" class="view">
+        <div class="two-col-layout">
+          <article class="panel">
+            <div class="section-head with-action">
+              <div>
+                <div class="eyebrow">коллекция</div>
+                <h3>Инвентарь</h3>
+              </div>
+              <button id="sellAllBtn" class="ghost-btn">Продать всё</button>
+            </div>
+            <div class="summary-grid">
+              <div class="metric-card"><span>Предметов</span><strong id="inventoryCount">0</strong></div>
+              <div class="metric-card"><span>Стоимость</span><strong id="inventoryValue">0.00 $</strong></div>
+            </div>
+          </article>
+
+          <article class="panel wide-panel">
+            <div id="inventoryList" class="item-list empty-state">Инвентарь пока пуст.</div>
+          </article>
+        </div>
+      </section>
+
+      <section id="view-history" class="view">
+        <article class="panel">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">лента действий</div>
+              <h3>История аккаунта</h3>
+            </div>
+          </div>
+          <div class="history-toolbar">
+            <div class="summary-grid history-summary">
+              <div class="metric-card"><span>Всего записей</span><strong id="historyCount">0</strong></div>
+              <div class="metric-card"><span>Доходы</span><strong id="historyIncome">0.00 $</strong></div>
+              <div class="metric-card"><span>Расходы</span><strong id="historyExpense">0.00 $</strong></div>
+            </div>
+            <div class="filter-row" id="historyFilters">
+              <button class="filter-btn active" data-filter="all">Все</button>
+              <button class="filter-btn" data-filter="income">Доходы</button>
+              <button class="filter-btn" data-filter="expense">Расходы</button>
+              <button class="filter-btn" data-filter="transfers">Переводы</button>
+              <button class="filter-btn" data-filter="drops">Дропы</button>
+            </div>
+          </div>
+          <div id="historyList" class="item-list empty-state">История пока пустая.</div>
+        </article>
+      </section>
+
+      <section id="view-transfers" class="view">
+        <div class="two-col-layout">
+          <article class="panel">
+            <div class="section-head">
+              <div>
+                <div class="eyebrow">transfer by id</div>
+                <h3>Перевод $</h3>
+              </div>
+            </div>
+            <form id="transferForm" class="control-form">
+              <label>
+                ID получателя
+                <input id="transferTarget" type="text" placeholder="Например, U-483920" required />
+              </label>
+              <label>
+                Сумма
+                <input id="transferAmount" type="number" min="0.5" step="0.5" placeholder="50" required />
+              </label>
+              <button type="submit" class="primary-btn">Отправить</button>
+            </form>
+          </article>
+
+          <article class="panel wide-panel">
+            <div class="section-head">
+              <div>
+                <div class="eyebrow">локальная база</div>
+                <h3>Пользователи в браузере</h3>
+              </div>
+            </div>
+            <div id="directoryList" class="item-list empty-state">Нет сохранённых пользователей.</div>
+          </article>
+        </div>
+      </section>
+
+      <section id="view-admin" class="view">
+        <div class="two-col-layout">
+          <article class="panel">
+            <div class="section-head">
+              <div>
+                <div class="eyebrow">admin tools</div>
+                <h3>Выдача $</h3>
+              </div>
+            </div>
+            <form id="adminGrantForm" class="control-form">
+              <label>
+                ID пользователя
+                <input id="adminTargetId" type="text" placeholder="U-483920" required />
+              </label>
+              <label>
+                Сумма
+                <input id="adminGrantAmount" type="number" min="1" step="0.5" placeholder="100" required />
+              </label>
+              <label>
+                Комментарий
+                <textarea id="adminGrantComment" rows="5" placeholder="Например: бонус за тест" required></textarea>
+              </label>
+              <button type="submit" class="primary-btn">Начислить $</button>
+            </form>
+          </article>
+
+          <article class="panel wide-panel">
+            <div class="section-head">
+              <div>
+                <div class="eyebrow">users snapshot</div>
+                <h3>Пользователи и балансы</h3>
+              </div>
+            </div>
+            <div id="adminUsersList" class="item-list empty-state">Список пользователей пуст.</div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <div id="itemModal" class="modal hidden">
+      <div class="modal-backdrop" data-close-item-modal></div>
+      <div class="modal-card panel">
+        <button class="modal-close ghost-btn" data-close-item-modal>Закрыть</button>
+        <div id="itemModalContent"></div>
+      </div>
+    </div>
+
+    <div id="spinModal" class="modal hidden">
+      <div class="modal-backdrop"></div>
+      <div class="modal-card panel spin-modal-card">
+        <div class="spin-header">
+          <div>
+            <div class="eyebrow">открытие кейса</div>
+            <h3 id="spinCaseTitle">Case</h3>
+          </div>
+          <div class="spin-balance">Прокрутка идёт до точной позиции без отката назад.</div>
+        </div>
+        <div class="reel-shell">
+          <div class="reel-overlay left"></div>
+          <div class="reel-overlay right"></div>
+          <div class="reel-pointer"></div>
+          <div id="reelTrack" class="reel-track"></div>
+        </div>
+        <div id="spinStatus" class="spin-status">Прокрутка...</div>
+        <div id="spinResult" class="spin-result hidden"></div>
+        <div class="spin-actions hidden" id="spinActions">
+          <button id="keepItemBtn" class="ghost-btn">Оставить в инвентаре</button>
+          <button id="sellDropBtn" class="primary-btn">Продать предмет</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
