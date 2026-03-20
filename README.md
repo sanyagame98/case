@@ -20,6 +20,3 @@ python -m http.server 8000
 
 Потом открой `http://localhost:8000`
 
-## Тестовый админ
-- Почта: `admin@caseverse.local`
-- Пароль: `admin12345`
